@@ -1,0 +1,64 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model chapters {
+  id        Int      @id @default(autoincrement())
+  name      String
+  number    Int
+  mangaId   Int
+  createdAt DateTime @default(now())
+  mangas    mangas   @relation(fields: [mangaId], references: [id])
+  images    images[]
+}
+
+model images {
+  id        Int      @id @default(autoincrement())
+  order     Int
+  chapterId Int
+  createdAt DateTime @default(now())
+  chapters  chapters @relation(fields: [chapterId], references: [id])
+}
+
+model mangas {
+  id          Int         @id @default(autoincrement())
+  name        String
+  description String
+  views       Int
+  isFinished  Boolean
+  coverUrl    String
+  createdAt   DateTime    @default(now())
+  chapters    chapters[]
+  mangatags   mangatags[]
+}
+
+model mangatags {
+  id      Int    @id @default(autoincrement())
+  mangaId Int
+  tagId   Int
+  mangas  mangas @relation(fields: [mangaId], references: [id])
+  tags    tags   @relation(fields: [tagId], references: [id])
+}
+
+model tags {
+  id        Int         @id @default(autoincrement())
+  name      String      @unique
+  mangatags mangatags[]
+}
+
+model users {
+  id         Int    @id @default(autoincrement())
+  name       String @unique
+  email      String @unique
+  password   String
+  pictureURL String
+  createdAt  DateTime @default(now())
+}
