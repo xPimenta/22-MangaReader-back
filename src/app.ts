@@ -26,21 +26,26 @@ app.get('/api/images', async (req, res) => {
     res.send(publicIds);
 });
 
-app.post('/api/upload', async (req: Request, res: Response) => {
-    try {
-        const fileStr = req.body;
-        console.log(fileStr);
+app.post('/api/upload', (req: Request, res: Response) => {
+        const images = req.body[2]
 
-        // const uploadResponse = await cloudinary.uploader.upload(fileStr, {
-        //     upload_preset: 'mangareader',
-        // });
-        // console.log(uploadResponse, "UPLOAD RESPONSE");
-        // res.json({ msg: 'yaya' });
-    } catch (err) {
-        console.error(err, "ERROR");
-        res.status(500).json({ err: 'Something went wrong :P' });
-    }
+        images.forEach(async (image: any) => {
+
+    try{
+        const uploadResponse = await cloudinary.uploader.upload(image[0], {
+            upload_preset: 'mangareader', folder: req.body[0] + " " + req.body[1],
+        });
+
+        console.log(uploadResponse.url);
+        res.status(200).json({ msg: 'created' });
+        }
+        catch (error) {
+        console.log(error);
+        res.status(500).json({ msg: 'error' });
+    }});
 });
+
+
 
 app.get("/", (req: Request, res: Response) => res.send("Online"))
 app.use(router)
