@@ -4,7 +4,7 @@ import express, { Request, Response } from "express"
 import "express-async-errors"
 
 import cloudinary from "./utils/cloudinary"
-import { handleError } from "@middlewares/errorHandler"
+// import { handleError } from "@middlewares/errorHandler"
 import { router } from "@routers/index"
 
 dotenv.config()
@@ -26,15 +26,16 @@ app.get('/api/images', async (req, res) => {
     res.send(publicIds);
 });
 
-app.post('/api/upload', async (req, res) => {
+app.post('/api/upload', async (req: Request, res: Response) => {
     try {
-        const fileStr = req.body.data;
+        const fileStr = req.body;
+        console.log(fileStr);
 
-        const uploadResponse = await cloudinary.uploader.upload(fileStr, {
-            upload_preset: 'mangareader',
-        });
-        console.log(uploadResponse, "UPLOAD RESPONSE");
-        res.json({ msg: 'yaya' });
+        // const uploadResponse = await cloudinary.uploader.upload(fileStr, {
+        //     upload_preset: 'mangareader',
+        // });
+        // console.log(uploadResponse, "UPLOAD RESPONSE");
+        // res.json({ msg: 'yaya' });
     } catch (err) {
         console.error(err, "ERROR");
         res.status(500).json({ err: 'Something went wrong :P' });
@@ -44,6 +45,6 @@ app.post('/api/upload', async (req, res) => {
 app.get("/", (req: Request, res: Response) => res.send("Online"))
 app.use(router)
 
-app.use(handleError)
+// app.use(handleError)
 
 export default app
