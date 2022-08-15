@@ -28,21 +28,26 @@ app.get('/api/images', async (req, res) => {
 
 app.post('/api/upload', (req: Request, res: Response) => {
         const images = req.body[2]
+        let chapterUrls = []
 
-        images.forEach(async (image: any) => {
-
+    images.forEach( async (image: any) => {
     try{
         const uploadResponse = await cloudinary.uploader.upload(image[0], {
-            upload_preset: 'mangareader', folder: req.body[0] + " " + req.body[1],
+            upload_preset: 'mangareader', 
+            folder: req.body[0] + " " + req.body[1],
+            public_id: image[1].slice(0, -4)
         });
-
         console.log(uploadResponse.url);
-        res.status(200).json({ msg: 'created' });
+        chapterUrls.push(uploadResponse.url)
         }
         catch (error) {
         console.log(error);
-        res.status(500).json({ msg: 'error' });
-    }});
+        res.status(500).json({ msg: 'ERROR' });
+    }
+    chapterUrls.sort();
+    console.log(chapterUrls);
+});
+    res.status(200).json({ msg: 'CREATED' });
 });
 
 
