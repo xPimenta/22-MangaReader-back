@@ -1,23 +1,16 @@
-import { getBaseUrl } from "@utils/apiPaths"
-import axios from "axios"
+import { mangas } from "@prisma/client"
+import { createManga } from "@utils/createManga"
+
+export type mangaTemplate = Omit<mangas, "id" | "views" | "isFinished" | "createdAt">
+
+export type createManga = mangaTemplate & {
+    name: string
+    mangaName: string
+}
 
 export const mangaService = {
-  async findAll() {
-    const API_URL = `${getBaseUrl()}/mangas.json`
-    const result = await axios.get(API_URL)
 
-    const mangas = result.data
-
-    return mangas
-  },
-
-  async findByKey(mangaKey: string) {
-    const API_URL = `${getBaseUrl()}/mangas/${mangaKey}.json`
-
-    const result = await axios.get(API_URL)
-
-    const manga = result.data
-
-    return manga
-  },
+    async createManga(manga: createManga) {
+        const mangaInfo = await createManga(manga)
+    }
 }

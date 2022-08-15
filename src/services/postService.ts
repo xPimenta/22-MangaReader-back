@@ -1,23 +1,22 @@
-import { getBaseUrl } from "@utils/apiPaths"
-import axios from "axios"
+import { uploadChapter } from "@utils/uploadCloudinary"
+import { mangaRepository } from "../repositories/mangaRepository"
+
+import { mangas } from "@prisma/client"
+
 
 export const postService = {
-  async upload() {
-    const API_URL = `${getBaseUrl()}/posts.json`
-    const result = await axios.get(API_URL)
+  async uploadChapter(uploadInfo: any) {
 
-    const posts = result.data
+    const UploadUrls = await uploadChapter(uploadInfo)
 
-    return posts
+    // const CreateChapter = await mangaRepository.createChapter({
+    //   mangaName: uploadInfo[0],
+    //   chapterNumber: uploadInfo[1],
+    //   chapterUrls: UploadUrls,
+    // })
+
+    console.log(UploadUrls)
+    
   },
 
-  async findByKey(postKey: string) {
-    const API_URL = `${getBaseUrl()}/posts/${postKey}.json`
-
-    const result = await axios.get(API_URL)
-
-    const post = result.data
-
-    return post
-  },
 }

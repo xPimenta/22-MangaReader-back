@@ -1,10 +1,11 @@
-import { postController } from "@controllers/postController"
+import cloudinary from "../utils/cloudinary"
 import { Router } from "express"
-import { multerConfig } from "../config/multer"
-import multer from "multer"
+import { postController } from "@controllers/postController";
 
 const postRouter = Router()
 
-postRouter.post('/upload', multer(multerConfig).single('file'), postController.upload)
+postRouter.post('/api/upload', postController.uploadChapter)
 
-export default postRouter
+export default postRouter;
+
+
