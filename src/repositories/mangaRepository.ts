@@ -1,18 +1,24 @@
 import { prisma } from "../config/database"
-import { chapters } from "@prisma/client"
-import { mangas } from "@prisma/client"
 
-import { createManga } from "../services/mangaService"
+import { createMangaType } from "../services/mangaService"
 
 
 export const mangaRepository = {
 
-    async createManga (name: createManga ) {
+    async createManga (createMangaData: createMangaType) {
+        
         const mangaInfo = await prisma.mangas.create({
             data: {
-                name: "string",
+                name: createMangaData[0],
+                description: createMangaData[1],
+                coverUrl: "coverUrl",
+                isFinished: false,
+                createdAt: new Date(),
+                views: 0,
             }
         })
+        return mangaInfo.id
+        console.log(mangaInfo.id, "Manga Info ID")
     },
 
     async getAllMangas() {
