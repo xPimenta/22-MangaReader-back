@@ -15,5 +15,10 @@ export const chapterService = {
   async createChapter(chapterData: createChapterType) {
     const chapterInfo = await chapterRepository.createChapter(chapterData)
     return chapterInfo
+  },
+
+  async createChapterImages(chapterUrls: string[], chapterId: number) {
+    const chapterImages = await chapterRepository.createChapterImages(chapterUrls, chapterId)
+    return chapterImages
   }
 }

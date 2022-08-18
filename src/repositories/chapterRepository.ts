@@ -14,17 +14,30 @@ async createChapter(chapter: createChapterType) {
                 createdAt: new Date(),
             }
         })
-        console.log(chapterInfo.id, "CHAPTER INFO ID")
-        console.log(chapterInfo)
         return chapterInfo.id
 },
-async getChapterByNumber(number: string) {
+async getChapterByNumberAndManga(number: string, mangaId: number) {
     const exists = await prisma.chapters.findFirst({
         where: {
-            number: number
+            number: number,
+            mangaId: mangaId
         }
     })
     if (!exists) return null
-    return exists
+    return "exists"
+},
+
+async createChapterImages(chapterUrls: string[], chapterId: number) {
+    const chapterImages = await prisma.images.createMany({
+        data: chapterUrls.map((url: string) => {
+            return {
+                url: url,
+                order: chapterUrls.indexOf(url),
+                chapterId: chapterId,
+                createdAt: new Date(),
+            }
+        }),
+    })
+    return chapterImages
 }
 }
