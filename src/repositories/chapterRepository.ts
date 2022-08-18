@@ -39,5 +39,25 @@ async createChapterImages(chapterUrls: string[], chapterId: number) {
         }),
     })
     return chapterImages
+},
+
+async getLatestChapters() {
+    const latestChapters = await prisma.chapters.findMany({
+        orderBy: {
+            id: "desc"
+        },
+        take: 10,
+    })
+    return latestChapters
+},
+
+async getChapterById(chapterId: string) {
+    const chapter = await prisma.chapters.findFirst({
+        where: {
+            id: Number(chapterId),
+        }
+    })
+    console.log(chapter, "chapter")
+    return chapter
 }
 }

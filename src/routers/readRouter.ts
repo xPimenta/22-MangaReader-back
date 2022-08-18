@@ -3,7 +3,8 @@ import { Router } from "express"
 
 const readRouter = Router()
 
-// readRouter.get("/mangas", readController.findAll)
+readRouter.get("/latestChapters", readController.getLatestChapters)
+readRouter.get("/getChapter/:chapterId", readController.readChapter)
 // readRouter.get("/mangas/:mangaKey", readController.findByKey)
 // readRouter.get("/ler/:mangaChapter", readController.findAll)
 
