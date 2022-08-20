@@ -52,12 +52,41 @@ async getLatestChapters() {
 },
 
 async getChapterById(chapterId: string) {
+    const chapterImgs = await prisma.images.findMany({
+        where: {
+            chapterId: Number(chapterId),
+        }
+    })
+
     const chapter = await prisma.chapters.findFirst({
         where: {
             id: Number(chapterId),
         }
     })
-    console.log(chapter, "chapter")
-    return chapter
+
+    let chapterInfo = [chapterImgs, chapter.name, chapter.number]
+    console.log(chapterInfo)
+
+    return chapterInfo
+},
+
+async getMangaById(mangaId: string) {
+    const manga = await prisma.mangas.findFirst({
+        where: {
+            id: Number(mangaId),
+        }
+    })
+    return manga
+},
+
+async getMostRead() {
+    const mostRead = await prisma.mangas.findMany({
+        orderBy: {
+            // views: "desc"
+            id: "desc"
+        },
+        take: 10,
+    })
+    return mostRead
 }
 }

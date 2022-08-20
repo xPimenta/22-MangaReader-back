@@ -26,7 +26,7 @@ export const mangaRepository = {
     },
 
     async getMangaByName(name: string) {
-        const exists = await prisma.chapters.findFirst({
+        const exists = await prisma.mangas.findFirst({
             where: {
                 name: name
             }

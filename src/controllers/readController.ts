@@ -10,10 +10,25 @@ export const readController = {
   },
 
   async readChapter(req: Request, res: Response) {
-    res.send("controller read chapter")
-    console.log("chapter")
-    
-    // const chapter = await chapterRepository.getChapterById(req.params.chapterId)
+    const chapterId = req.params.chapterId
+    const readChapter = await chapterRepository.getChapterById(chapterId)
+    res.send(readChapter)
+  },
 
-  }
+  async getMangaByName(req: Request, res: Response) {
+    const mangaName = req.params.mangaName
+    const manga = await mangaService.getMangaByName(mangaName)
+    res.send(manga)
+  },
+
+  async getMangaById(req: Request, res: Response) {
+    const mangaId = req.params.mangaId
+    const manga = await chapterRepository.getMangaById(mangaId)
+    res.send(manga)
+  },
+
+  async getMostRead(req: Request, res: Response) {
+    const mostRead = await chapterRepository.getMostRead()
+    res.send(mostRead)
+  }  
 }

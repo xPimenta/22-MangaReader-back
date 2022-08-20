@@ -13,5 +13,11 @@ export const mangaService = {
     async createManga(manga: createMangaType) {
         const mangaInfo = await mangaRepository.createManga(manga)
         return mangaInfo
+    },
+
+    async getMangaByName(name: string) {
+        const exists = await mangaRepository.getMangaByName(name)
+        if (!exists) return null
+        return exists
     }
 }

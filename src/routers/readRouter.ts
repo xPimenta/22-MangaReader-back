@@ -4,8 +4,9 @@ import { Router } from "express"
 const readRouter = Router()
 
 readRouter.get("/latestChapters", readController.getLatestChapters)
-readRouter.get("/getChapter/:chapterId", readController.readChapter)
-// readRouter.get("/mangas/:mangaKey", readController.findByKey)
+readRouter.get("/chapter/:chapterId", readController.readChapter)
+readRouter.get("/getMostRead", readController.getMostRead)
+readRouter.get("/manga/:mangaId", readController.getMangaById)
 // readRouter.get("/ler/:mangaChapter", readController.findAll)
 
 export default readRouter
