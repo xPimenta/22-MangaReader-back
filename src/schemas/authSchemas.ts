@@ -2,8 +2,10 @@ import Joi from "joi";
 import { Request, Response, NextFunction } from "express";
 
 export const loginSchema = Joi.object({
+  name: Joi.string().required(),
   email: Joi.string().email().required(),
   password: Joi.string().min(4).required(),
+  pictureURL: Joi.string().required(),
 });
 
 export const registerSchema = Joi.object({
