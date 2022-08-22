@@ -2,7 +2,7 @@ import { Router } from "express";
 
 import * as schema from ".././schemas/authSchemas";
 import { validateSchema  }from ".././middlewares/validateSchema";
-//commit
+//commitx
 import * as controller from ".././controllers/authController";
 
 const authRouter = Router();
