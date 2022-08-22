@@ -2,6 +2,7 @@ import { mangaService } from "@services/mangaService"
 import { Request, Response } from "express"
 
 import { chapterRepository } from "@repositories/chapterRepository"
+import { mangaRepository } from "@repositories/mangaRepository"
 
 export const readController = {
   async getLatestChapters(req: Request, res: Response) {
@@ -23,12 +24,12 @@ export const readController = {
 
   async getMangaById(req: Request, res: Response) {
     const mangaId = req.params.mangaId
-    const manga = await chapterRepository.getMangaById(mangaId)
+    const manga = await mangaRepository.getMangaById(mangaId)
     res.send(manga)
   },
 
   async getMostRead(req: Request, res: Response) {
-    const mostRead = await chapterRepository.getMostRead()
+    const mostRead = await mangaRepository.getMostRead()
     res.send(mostRead)
   }  
 }

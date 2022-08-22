@@ -14,6 +14,7 @@ async createChapter(chapter: createChapterType) {
                 createdAt: new Date(),
             }
         })
+
         return chapterInfo.id
 },
 async getChapterByNumberAndManga(number: string, mangaId: number) {
@@ -38,6 +39,38 @@ async createChapterImages(chapterUrls: string[], chapterId: number) {
             }
         }),
     })
+
+    const chptId= await prisma.chapters.findFirst({
+        where: {
+            id: chapterId
+        }
+    })
+
+    await prisma.chapters.update({
+        where: {
+            id: chapterId
+        },
+        data: {
+            coverUrl: chapterUrls[0],
+        }
+    })
+
+
+    const manga = await prisma.mangas.findFirst({
+        where: {
+            id: chptId.mangaId
+        }
+    })
+
+    const coverUrl = await prisma.mangas.update({
+        where: {
+            id: manga.id
+        },
+        data: {
+            coverUrl: chapterUrls[0],
+        }
+    })
+
     return chapterImages
 },
 
@@ -68,25 +101,5 @@ async getChapterById(chapterId: string) {
     console.log(chapterInfo)
 
     return chapterInfo
-},
-
-async getMangaById(mangaId: string) {
-    const manga = await prisma.mangas.findFirst({
-        where: {
-            id: Number(mangaId),
-        }
-    })
-    return manga
-},
-
-async getMostRead() {
-    const mostRead = await prisma.mangas.findMany({
-        orderBy: {
-            // views: "desc"
-            id: "desc"
-        },
-        take: 10,
-    })
-    return mostRead
 }
 }

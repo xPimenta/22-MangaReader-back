@@ -12,12 +12,13 @@ export const postController = {
     let mangaData:createChapterType = {name: "", number: "", mangaId: 0}
 
     const MangaExists = await mangaRepository.getMangaByName(req.body[0])
+    console.log(MangaExists)
 
     if (MangaExists) {
       mangaData = {
         name: req.body[0],
         number: req.body[1],
-        mangaId: MangaExists.mangaId,
+        mangaId: MangaExists.id,
       }
       console.log(mangaData, "MANGA DATA")
     }
@@ -33,12 +34,15 @@ export const postController = {
     }
 
     const ChapterExists = await chapterRepository.getChapterByNumberAndManga(req.body[1], mangaData.mangaId)
+    console.log(ChapterExists, "CHAPTER EXISTS")
 
     if(!ChapterExists) {
       const chapterUrls = await chapterService.uploadChapter(req.body) // return URLs
       const createChapter = await chapterService.createChapter(mangaData) // return chapter id
       const createChapterImages = await chapterService.createChapterImages(chapterUrls, createChapter) // return chapter id
     }
+
+    res.send("ok")
 }
 }
 

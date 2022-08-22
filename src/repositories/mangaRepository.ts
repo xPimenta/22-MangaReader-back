@@ -11,7 +11,7 @@ export const mangaRepository = {
             data: {
                 name: createMangaData[0],
                 description: createMangaData[1],
-                coverUrl: "coverUrl",
+                coverUrl: "https://res.cloudinary.com/dlua7rfnv/image/upload/v1661138030/MANGA-COVER_fbx2to.jpg",
                 isFinished: false,
                 createdAt: new Date(),
                 views: 0,
@@ -33,5 +33,34 @@ export const mangaRepository = {
         })
         if (!exists) return null
         return exists
+    },
+
+    async getMangaById(mangaId: string) {
+        const manga = await prisma.mangas.findFirst({
+            where: {
+                id: Number(mangaId),
+            }
+        })
+    
+        const chapters = await prisma.chapters.findMany({
+            where: {
+                mangaId: Number(mangaId),
+            }
+        })
+    
+        let mangaInfo = [manga.name, chapters]
+        console.log(mangaInfo)
+        return mangaInfo
+    },
+    
+    async getMostRead() {
+        const mostRead = await prisma.mangas.findMany({
+            orderBy: {
+                // views: "desc"
+                id: "desc"
+            },
+            take: 10,
+        })
+        return mostRead
     }
 }

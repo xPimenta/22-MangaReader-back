@@ -15,6 +15,7 @@ model chapters {
   name      String
   number    String
   mangaId   Int
+  coverUrl  String   @default("https://res.cloudinary.com/dlua7rfnv/image/upload/v1660800171/12312333%2012333/p%C3%A1gina%201.png")
   createdAt DateTime @default(now())
   mangas    mangas   @relation(fields: [mangaId], references: [id])
   images    images[]
@@ -35,7 +36,7 @@ model mangas {
   description String
   views       Int
   isFinished  Boolean
-  coverUrl    String
+  coverUrl    String      @default("https://res.cloudinary.com/dlua7rfnv/image/upload/v1660800171/12312333%2012333/p%C3%A1gina%201.png")
   createdAt   DateTime    @default(now())
   chapters    chapters[]
   mangatags   mangatags[]
