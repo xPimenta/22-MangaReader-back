@@ -9,7 +9,7 @@ import { createChapterType } from "@services/chapterService"
 
 export const postController = {
   async uploadChapter(req:Request, res:Response) {
-    let mangaData:createChapterType = {name: "", number: "", mangaId: 0}
+    let mangaData:createChapterType = {name: "", number: "", mangaId: 0, coverUrl: ""}
 
     const MangaExists = await mangaRepository.getMangaByName(req.body[0])
     console.log(MangaExists)
@@ -19,6 +19,7 @@ export const postController = {
         name: req.body[0],
         number: req.body[1],
         mangaId: MangaExists.id,
+        coverUrl: "",
       }
       console.log(mangaData, "MANGA DATA")
     }
@@ -29,6 +30,7 @@ export const postController = {
         name: req.body[0],
         number: req.body[1],
         mangaId: CreateManga,
+        coverUrl: "",
       }
     console.log(mangaData, "MANGA DATA create")
     }
