@@ -9,6 +9,7 @@ import "express-async-errors"
 // import userRouter from "./routers/userRouter"
 import readRouter from "./routers/readRouter"
 import postRouter from "./routers/postRouter"
+import authRouter from "./routers/authRouter"
 
 dotenv.config()
 const app = express()
@@ -21,6 +22,7 @@ app.use(cors())
 app.get("/", (req: Request, res: Response) => res.send("Online"))
 app.use(readRouter)
 app.use(postRouter)
+app.use(authRouter)
 
 
 // app.use(handleError)

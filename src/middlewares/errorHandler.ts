@@ -1,23 +1,16 @@
-// import { errorTypeToStatusCode, isAppError } from "@utils/errorUtils"
-// import { NextFunction, Request, Response } from "express"
+import { Request, Response, NextFunction } from "express";
 
-// export function handleError(
-//   error,
-//   req: Request,
-//   res: Response,
-//   next: NextFunction,
-// ) {
-//   console.log("An error occured!", error)
+const errors = {
+  "unauthorized": 401,
+  "conflict": 409,
+  "wrong_schema": 422,
+  "not_found": 404,
+  "unprocessable": 422
+}
 
-//   if (isAppError(error)) {
-//     const statusCode = errorTypeToStatusCode(error.type)
-//     res.status(statusCode).send(error.message)
-//   }
+export function errorHandler( err: any, _req: Request, res: Response, _next: NextFunction ) {
+  const message = err.message || "Something went wrong";
 
-//   if (error.details)
-//     return res
-//       .status(422)
-//       .send(error.details.map(({ message }: { message: string }) => message))
-
-//   res.sendStatus(500)
-// }
+  const status = errors[err.type] || 500;
+  res.status(status).json({ message });
+}

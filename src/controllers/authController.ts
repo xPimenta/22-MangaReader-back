@@ -1,24 +1,16 @@
-import { Request, Response } from "express"
+import { Request, Response } from "express";
 
-import { authService } from "../services/authService.js"
+import * as userService from ".././services/userService";
 
-export const authController = {
-    async signUp(req: Request, res: Response) {
-        await authService.userSignUp(req.body)
-        return res.sendStatus(201)
-    },
+export async function signup(req: Request, res: Response) {
+    console.log("SIGNUP", req.body);
+  await userService.create(req.body);
+  res.sendStatus(201);
+}
 
-    async signIn(req: Request, res: Response) {
-        const token = await authService.userSignIn(req.body)
-        return res.status(200).send({ token })
-    },
+export async function signin(req: Request, res: Response) {
+  const { email, password } = req.body;
 
-    async userData(req: Request, res: Response) {
-        const { userId } = res.locals
-
-        const user = await authService.userData(userId)
-
-        if (!user) return res.sendStatus(404)
-        return res.status(200).send(user)
-    },
+  const user = await userService.login({ email, password });
+  res.send(user);
 }

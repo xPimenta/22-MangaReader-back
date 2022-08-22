@@ -1,17 +1,24 @@
-import { Router } from "express"
+import { Router } from "express";
 
-import {
-    validateSignIn,
-    validateSignUp,
-    validateToken,
-} from "../middlewares/validateInformation.js"
+import * as schema from ".././schemas/authSchemas";
+import { validateSchema  }from ".././middlewares/validateSchema";
 
-import { authController } from "../controllers/authController.js"
+import * as controller from ".././controllers/authController";
 
-const authRouter = Router()
+const authRouter = Router();
 
-authRouter.post("/sign-up", validateSignUp, authController.signUp)
-authRouter.post("/sign-in", validateSignIn, authController.signIn)
-authRouter.get("/data", validateToken, authController.userData)
+authRouter.post(
+  "/sign-up",
+  validateSchema(schema.registerSchema),
+  controller.signup
+);
 
-export default authRouter
+authRouter.post(
+  "/sign-in",
+  validateSchema(schema.loginSchema),
+  controller.signin
+);
+
+authRouter.post("/validateToken",  controller.signin);
+
+export default authRouter;
