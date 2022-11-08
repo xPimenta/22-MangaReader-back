@@ -10,7 +10,6 @@ export function validateSchema(schema: Joi.ObjectSchema) {
   return async (req: Request, _res: Response, next: NextFunction) => {
     console.log("validateSchema", req.body);
     const validation = schema.validate(req.body, { abortEarly: false });
-    console.log(validation);
     if (validation.error) throw { type: "wrong_schema", message: validation.error.message };
 
     next();

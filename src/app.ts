@@ -3,9 +3,7 @@ import dotenv from "dotenv"
 import express, { Request, Response } from "express"
 import "express-async-errors"
 
-
 // import { handleError } from "@middlewares/errorHandler"
-
 // import userRouter from "./routers/userRouter"
 import readRouter from "./routers/readRouter"
 import postRouter from "./routers/postRouter"

@@ -28,7 +28,8 @@ export async function create(user: CreateUser) {
 
 export async function login(user: userLoginData) {
   const searchedUser = await searchUserOrError("email", user.email);
-  const { id, name, password } = searchedUser;
+  const { id, name, password, pictureURL} = searchedUser;
+  console.log("SEARCHED USER", searchedUser);
 
   const isValid = passUtils.decryptPassword(user.password, password);
   if (!isValid) throw unauthorizedError("User or password is incorrect");
@@ -36,7 +37,7 @@ export async function login(user: userLoginData) {
   const data = { id, name };
   const token = jwt.sign(data, process.env.JWT_SECRET);
 
-  return { token };
+  return { token , pictureURL};
 }
 
 export async function searchUserOrError(param: string, value: string | number) {
