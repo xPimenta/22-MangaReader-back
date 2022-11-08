@@ -45,7 +45,8 @@ export const mangaRepository = {
         const chapters = await prisma.chapters.findMany({
             where: {
                 mangaId: Number(mangaId),
-            }
+            },
+			take: 10,
         })
     
         let mangaInfo = [manga.name, chapters]
