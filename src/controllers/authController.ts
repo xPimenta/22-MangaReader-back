@@ -5,7 +5,11 @@ import * as userService from ".././services/userService";
 
 export async function signup(req: Request, res: Response) {
   await userService.create(req.body);
-  res.sendStatus(201);
+  const { email, password } = req.body;
+
+  const user = await userService.login({ email, password });
+
+  res.send(user);
 }
 
 export async function signin(req: Request, res: Response) {

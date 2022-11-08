@@ -29,7 +29,6 @@ export async function create(user: CreateUser) {
 export async function login(user: userLoginData) {
   const searchedUser = await searchUserOrError("email", user.email);
   const { id, name, password, pictureURL} = searchedUser;
-  console.log("SEARCHED USER", searchedUser);
 
   const isValid = passUtils.decryptPassword(user.password, password);
   if (!isValid) throw unauthorizedError("User or password is incorrect");
